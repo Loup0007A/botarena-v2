@@ -1,0 +1,105 @@
+<%- include('../partials/header') %>
+
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="admin-logo">⚙️ Admin Panel</div>
+    <nav class="admin-nav">
+      <a href="/admin" class="anav-link <%= typeof currentPage !== 'undefined' && currentPage === 'dashboard' ? 'active' : '' %>">📊 Dashboard</a>
+      <a href="/admin/users" class="anav-link">👥 Joueurs</a>
+      <a href="/admin/games" class="anav-link">🎮 Jeux</a>
+      <a href="/admin/logs" class="anav-link">📋 Logs</a>
+      <a href="/admin/leaderboard" class="anav-link">🏆 Classement</a>
+      <hr>
+      <a href="/" class="anav-link">← Site</a>
+      <a href="/auth/logout" class="anav-link danger">🚪 Déconnexion</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>📊 Dashboard</h1>
+      <span class="admin-time" id="adminTime"></span>
+    </div>
+
+    <!-- Stats -->
+    <div class="admin-stats">
+      <div class="astat"><div class="astat-val"><%= stats.totalUsers %></div><div>Joueurs inscrits</div></div>
+      <div class="astat"><div class="astat-val accent"><%= stats.todayLogins %></div><div>Connexions aujourd'hui</div></div>
+      <div class="astat"><div class="astat-val"><%= stats.todayRegisters %></div><div>Inscriptions aujourd'hui</div></div>
+      <div class="astat"><div class="astat-val"><%= stats.totalGames %></div><div>Parties jouées</div></div>
+      <div class="astat"><div class="astat-val danger"><%= stats.activeBans %></div><div>Bans actifs</div></div>
+      <div class="astat"><div class="astat-val"><%= GAMES.length %></div><div>Jeux disponibles</div></div>
+    </div>
+
+    <!-- Quick actions: Play as robot -->
+    <div class="admin-section">
+      <h2>🤖 Jouer à la place du robot</h2>
+      <p class="admin-hint">Sélectionne un jeu pour jouer en tant que robot contre un vrai joueur (mode spectateur/contrôle manuel)</p>
+      <div class="games-quick-grid">
+        <% GAMES.slice(0, 12).forEach(g => { %>
+          <a href="/admin/play/<%= g.id %>" class="quick-game-btn" style="--c:<%= g.color %>">
+            <span><%= g.icon %></span> <%= g.name %>
+          </a>
+        <% }) %>
+        <a href="/admin/games" class="quick-game-btn" style="--c:#555">Voir tous →</a>
+      </div>
+    </div>
+
+    <!-- Recent logs -->
+    <div class="admin-section">
+      <h2>📋 Logs récents <a href="/admin/logs" class="see-all">Voir tout →</a></h2>
+      <div class="log-table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Type</th><th>Données</th><th>Date</th></tr></thead>
+          <tbody>
+            <% recentLogs.forEach(l => { %>
+              <tr class="log-<%= l.type.includes('fail') || l.type.includes('ban') ? 'danger' : l.type.includes('success') ? 'success' : '' %>">
+                <td><span class="log-type"><%= l.type %></span></td>
+                <td class="log-data"><%= JSON.stringify(l.data).slice(0,80) %></td>
+                <td class="log-date"><%= new Date(l.timestamp).toLocaleString('fr-FR') %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Recent users -->
+    <div class="admin-section">
+      <h2>👥 Joueurs récents <a href="/admin/users" class="see-all">Gérer →</a></h2>
+      <div class="log-table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Avatar</th><th>Pseudo</th><th>Parties</th><th>Victoires</th><th>Statut</th><th>Action</th></tr></thead>
+          <tbody>
+            <% users.filter(u => u.role !== 'admin').slice(0, 10).forEach(u => { %>
+              <tr>
+                <td><%= u.avatar %></td>
+                <td><a href="/admin/users/<%= u.id %>"><%= u.username %></a></td>
+                <td><%= u.gamesPlayed || 0 %></td>
+                <td><%= u.wins || 0 %></td>
+                <td><span class="status-badge <%= u.banned ? 'banned' : 'active' %>"><%= u.banned ? '🚫 Banni' : '✅ Actif' %></span></td>
+                <td>
+                  <% if (u.banned) { %>
+                    <form action="/admin/users/<%= u.id %>/unban" method="POST" style="display:inline">
+                      <button type="submit" class="btn-xs btn-success">Débannir</button>
+                    </form>
+                  <% } else { %>
+                    <a href="/admin/users/<%= u.id %>" class="btn-xs">Détails</a>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+function updateTime() {
+  document.getElementById('adminTime').textContent = new Date().toLocaleString('fr-FR');
+}
+updateTime(); setInterval(updateTime, 1000);
+</script>
+<%- include('../partials/footer') %>

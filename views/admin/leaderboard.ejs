@@ -1,0 +1,36 @@
+<%- include('../partials/header') %>
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="admin-logo">⚙️ Admin Panel</div>
+    <nav class="admin-nav">
+      <a href="/admin" class="anav-link">📊 Dashboard</a>
+      <a href="/admin/users" class="anav-link">👥 Joueurs</a>
+      <a href="/admin/games" class="anav-link">🎮 Jeux</a>
+      <a href="/admin/logs" class="anav-link">📋 Logs</a>
+      <a href="/admin/leaderboard" class="anav-link active">🏆 Classement</a>
+      <hr>
+      <a href="/" class="anav-link">← Site</a>
+      <a href="/auth/logout" class="anav-link danger">🚪 Déconnexion</a>
+    </nav>
+  </aside>
+  <main class="admin-main">
+    <div class="admin-header"><h1>🏆 Classement global</h1></div>
+    <div class="log-table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>Rang</th><th>Joueur</th><th>Jeu</th><th>Score</th><th>Date</th></tr></thead>
+        <tbody>
+          <% scores.forEach((s, i) => { %>
+            <tr>
+              <td><%= i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1) %></td>
+              <td><a href="/admin/users"><%= s.username %></a></td>
+              <td><%= s.gameName %></td>
+              <td><strong><%= s.score %></strong></td>
+              <td><small><%= new Date(s.timestamp).toLocaleDateString('fr-FR') %></small></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<%- include('../partials/footer') %>

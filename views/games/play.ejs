@@ -1,0 +1,76 @@
+<%- include('../partials/header') %>
+
+<main class="game-page">
+  <div class="game-header">
+    <a href="/games" class="back-btn">← Retour</a>
+    <h1><%= game.icon %> <%= game.name %></h1>
+    <div class="game-meta-bar">
+      <span class="badge"><%= game.category %></span>
+      <span class="difficulty diff-<%= game.difficulty.toLowerCase() %>"><%= game.difficulty %></span>
+      <% if (user) { %><span class="user-tag"><%= user.avatar %> <%= user.username %></span><% } %>
+    </div>
+  </div>
+
+  <div class="game-layout">
+    <div class="game-main">
+      <div class="game-arena" id="gameArena">
+        <div class="game-start" id="gameStart">
+          <div class="game-start-icon"><%= game.icon %></div>
+          <h2><%= game.name %></h2>
+          <p><%= game.desc %></p>
+          <button class="btn-primary btn-huge" id="startBtn" onclick="startGame()">⚡ Commencer le duel</button>
+          <% if (!user) { %>
+            <p class="login-hint"><a href="/login">Connecte-toi</a> pour sauvegarder ton score</p>
+          <% } %>
+        </div>
+        <div class="game-container" id="gameContainer" style="display:none"></div>
+        <div class="game-result" id="gameResult" style="display:none">
+          <div class="result-icon" id="resultIcon"></div>
+          <h2 id="resultTitle"></h2>
+          <p id="resultMsg"></p>
+          <div class="result-score">Score : <span id="resultScore">0</span></div>
+          <div class="result-actions">
+            <button class="btn-primary" onclick="startGame()">🔄 Rejouer</button>
+            <a href="/games" class="btn-secondary">← Autres jeux</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="game-sidebar">
+      <div class="sidebar-card">
+        <h3>🤖 Adversaire</h3>
+        <div class="robot-card">
+          <div class="robot-face">🤖</div>
+          <div class="robot-name">Bot-<%= game.id.toUpperCase().slice(0,4) %>-X</div>
+          <div class="robot-lvl">Niveau <%= game.difficulty === 'Facile' ? '1' : game.difficulty === 'Moyen' ? '3' : '5' %></div>
+        </div>
+      </div>
+      <% if (leaderboard && leaderboard.length > 0) { %>
+      <div class="sidebar-card">
+        <h3>🏆 Top scores</h3>
+        <div class="mini-lb">
+          <% leaderboard.slice(0,5).forEach((entry, i) => { %>
+            <div class="mini-lb-row">
+              <span><%= i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1) %></span>
+              <span><%= entry.username %></span>
+              <span><%= entry.score %></span>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+      <% } %>
+    </aside>
+  </div>
+</main>
+
+<script>
+const GAME_ID = '<%= game.id %>';
+const GAME_NAME = '<%= game.name %>';
+const IS_LOGGED = <%= user ? 'true' : 'false' %>;
+</script>
+<script src="/js/games/engine.js"></script>
+<script src="/js/games/stubs.js"></script>
+<script src="/js/games/<%= game.id %>.js" onerror=""></script>
+
+<%- include('../partials/footer') %>

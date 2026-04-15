@@ -1,0 +1,107 @@
+<%- include('../partials/header') %>
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="admin-logo">⚙️ Admin Panel</div>
+    <nav class="admin-nav">
+      <a href="/admin" class="anav-link">📊 Dashboard</a>
+      <a href="/admin/users" class="anav-link active">👥 Joueurs</a>
+      <a href="/admin/games" class="anav-link">🎮 Jeux</a>
+      <a href="/admin/logs" class="anav-link">📋 Logs</a>
+      <a href="/admin/leaderboard" class="anav-link">🏆 Classement</a>
+      <hr>
+      <a href="/" class="anav-link">← Site</a>
+      <a href="/auth/logout" class="anav-link danger">🚪 Déconnexion</a>
+    </nav>
+  </aside>
+  <main class="admin-main">
+    <div class="admin-header">
+      <a href="/admin/users" class="back-btn">← Joueurs</a>
+      <h1><%= targetUser.avatar %> <%= targetUser.username %></h1>
+    </div>
+
+    <div class="user-detail-grid">
+      <div class="admin-section">
+        <h2>Informations</h2>
+        <table class="info-table">
+          <tr><td>ID</td><td><code><%= targetUser.id %></code></td></tr>
+          <tr><td>Email</td><td><%= targetUser.email %></td></tr>
+          <tr><td>Rôle</td><td><%= targetUser.role %></td></tr>
+          <tr><td>Inscrit le</td><td><%= new Date(targetUser.createdAt).toLocaleString('fr-FR') %></td></tr>
+          <tr><td>Dernière connexion</td><td><%= targetUser.lastLogin ? new Date(targetUser.lastLogin).toLocaleString('fr-FR') : 'Jamais' %></td></tr>
+          <tr><td>Parties jouées</td><td><%= targetUser.gamesPlayed || 0 %></td></tr>
+          <tr><td>Victoires</td><td><%= targetUser.wins || 0 %></td></tr>
+          <tr><td>Défaites</td><td><%= targetUser.losses || 0 %></td></tr>
+          <tr><td>Statut</td><td><span class="status-badge <%= targetUser.banned ? 'banned' : 'active' %>"><%= targetUser.banned ? '🚫 Banni' : '✅ Actif' %></span></td></tr>
+          <% if (targetUser.banReason) { %><tr><td>Raison ban</td><td><%= targetUser.banReason %></td></tr><% } %>
+        </table>
+
+        <div class="user-actions" style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+          <% if (!targetUser.banned) { %>
+            <button class="btn-danger" onclick="openBanModal('<%= targetUser.id %>', '<%= targetUser.username %>')">🚫 Bannir</button>
+          <% } else { %>
+            <form action="/admin/users/<%= targetUser.id %>/unban" method="POST">
+              <button type="submit" class="btn-success">✅ Débannir</button>
+            </form>
+          <% } %>
+          <button class="btn-danger" onclick="confirmDelete('<%= targetUser.id %>', '<%= targetUser.username %>')">🗑️ Supprimer</button>
+        </div>
+      </div>
+
+      <div class="admin-section">
+        <h2>Historique des parties (<%= userScores.length %>)</h2>
+        <% if (userScores.length > 0) { %>
+          <div class="log-table-wrap">
+            <table class="admin-table">
+              <thead><tr><th>Jeu</th><th>Résultat</th><th>Score</th><th>Durée</th><th>Date</th></tr></thead>
+              <tbody>
+                <% userScores.reverse().slice(0,50).forEach(s => { %>
+                  <tr>
+                    <td><%= s.gameName %></td>
+                    <td><span class="result-badge result-<%= s.result %>"><%= s.result === 'win' ? '🏆 Victoire' : s.result === 'loss' ? '🤖 Défaite' : '🤝 Égalité' %></span></td>
+                    <td><%= s.score %></td>
+                    <td><%= s.duration %>s</td>
+                    <td><small><%= new Date(s.timestamp).toLocaleString('fr-FR') %></small></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p>Aucune partie jouée.</p>
+        <% } %>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="modal-overlay" id="banModal" style="display:none">
+  <div class="modal-box">
+    <h2>🚫 Bannir <span id="banUsername"></span></h2>
+    <form id="banForm" method="POST">
+      <div class="form-group">
+        <label>Raison</label>
+        <input type="text" name="reason" placeholder="Raison du ban..." required>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn-danger">Confirmer</button>
+        <button type="button" class="btn-secondary" onclick="document.getElementById('banModal').style.display='none'">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
+<form id="deleteForm" method="POST" style="display:none"></form>
+<script>
+function openBanModal(id, name) {
+  document.getElementById('banUsername').textContent = name;
+  document.getElementById('banForm').action = '/admin/users/' + id + '/ban';
+  document.getElementById('banModal').style.display = 'flex';
+}
+function confirmDelete(id, name) {
+  if (confirm(`Supprimer "${name}" définitivement ?`)) {
+    const f = document.getElementById('deleteForm');
+    f.action = '/admin/users/' + id + '/delete';
+    f.submit();
+  }
+}
+</script>
+<%- include('../partials/footer') %>

@@ -1,0 +1,42 @@
+<%- include('../partials/header') %>
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <h1>🎮 L'Arène des <span class="accent">40 Jeux</span></h1>
+      <p><%= description %></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <!-- Category filter -->
+      <div class="cat-filter">
+        <a href="/games" class="cat-btn <%= !currentCat ? 'active' : '' %>">Tous (<%= games.length %>)</a>
+        <% categories.forEach(cat => { %>
+          <a href="/games?cat=<%= encodeURIComponent(cat) %>" 
+             class="cat-btn <%= currentCat === cat ? 'active' : '' %>"><%= cat %></a>
+        <% }) %>
+      </div>
+
+      <!-- Games grid -->
+      <div class="games-grid games-grid-full">
+        <% games.forEach(game => { %>
+          <a href="/games/<%= game.id %>" class="game-card" style="--card-color: <%= game.color %>" 
+             itemscope itemtype="https://schema.org/Game">
+            <div class="game-card-icon"><%= game.icon %></div>
+            <div class="game-card-info">
+              <h3 itemprop="name"><%= game.name %></h3>
+              <p itemprop="description"><%= game.desc %></p>
+              <div class="game-meta">
+                <span class="badge"><%= game.category %></span>
+                <span class="difficulty diff-<%= game.difficulty.toLowerCase() %>"><%= game.difficulty %></span>
+              </div>
+            </div>
+            <div class="game-card-hover">▶ Jouer</div>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+</main>
+<%- include('../partials/footer') %>

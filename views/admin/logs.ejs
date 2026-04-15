@@ -1,0 +1,59 @@
+<%- include('../partials/header') %>
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="admin-logo">⚙️ Admin Panel</div>
+    <nav class="admin-nav">
+      <a href="/admin" class="anav-link">📊 Dashboard</a>
+      <a href="/admin/users" class="anav-link">👥 Joueurs</a>
+      <a href="/admin/games" class="anav-link">🎮 Jeux</a>
+      <a href="/admin/logs" class="anav-link active">📋 Logs</a>
+      <a href="/admin/leaderboard" class="anav-link">🏆 Classement</a>
+      <hr>
+      <a href="/" class="anav-link">← Site</a>
+      <a href="/auth/logout" class="anav-link danger">🚪 Déconnexion</a>
+    </nav>
+  </aside>
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>📋 Logs du serveur</h1>
+      <span><%= logs.length %> entrées affichées</span>
+    </div>
+
+    <!-- Filters -->
+    <div class="log-filters">
+      <a href="/admin/logs" class="cat-btn <%= !currentType ? 'active' : '' %>">Tous</a>
+      <% logTypes.forEach(t => { %>
+        <a href="/admin/logs?type=<%= t %>" class="cat-btn <%= currentType === t ? 'active' : '' %>
+          log-type-btn-<%= t.includes('fail') || t.includes('ban') || t.includes('error') ? 'danger' : t.includes('success') ? 'success' : '' %>">
+          <%= t %>
+        </a>
+      <% }) %>
+    </div>
+
+    <div class="log-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr><th>#</th><th>Type</th><th>Données</th><th>Horodatage</th></tr>
+        </thead>
+        <tbody>
+          <% logs.forEach((l, i) => { %>
+            <tr class="log-row log-<%= l.type.includes('fail') || l.type.includes('ban') || l.type.includes('error') ? 'danger' : l.type.includes('success') || l.type.includes('register') ? 'success' : '' %>">
+              <td><small><%= i+1 %></small></td>
+              <td><span class="log-type-tag"><%= l.type %></span></td>
+              <td class="log-data-cell">
+                <% const d = l.data || {}; %>
+                <% if (d.username) { %><strong><%= d.username %></strong> <% } %>
+                <% if (d.ip) { %><code><%= d.ip %></code> <% } %>
+                <% if (d.reason) { %><span class="danger-text"><%= d.reason %></span> <% } %>
+                <% if (d.gameId) { %>🎮 <%= d.gameId %> — <%= d.result || '' %> <% } %>
+                <% if (d.error) { %><span class="danger-text"><%= d.error %></span><% } %>
+              </td>
+              <td><small><%= new Date(l.timestamp).toLocaleString('fr-FR') %></small></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<%- include('../partials/footer') %>

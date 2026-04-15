@@ -1,0 +1,37 @@
+<%- include('partials/header') %>
+<main>
+  <section class="page-hero">
+    <div class="container">
+      <h1>🏆 Classement <span class="accent">mondial</span></h1>
+      <p>Les meilleurs humains de l'arène</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="cat-filter">
+        <a href="/leaderboard" class="cat-btn <%= !currentGame ? 'active' : '' %>">Tous les jeux</a>
+        <% games.slice(0,10).forEach(g => { %>
+          <a href="/leaderboard?game=<%= g.id %>" class="cat-btn <%= currentGame === g.id ? 'active' : '' %>"><%= g.icon %> <%= g.name %></a>
+        <% }) %>
+      </div>
+      <% if (leaderboard.length > 0) { %>
+        <div class="lb-full">
+          <% leaderboard.forEach((entry, i) => { %>
+            <div class="lb-full-row <%= i < 3 ? 'top-'+i : '' %>">
+              <span class="lb-rank-big"><%= i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1) %></span>
+              <span class="lb-name-big"><%= entry.username %></span>
+              <span class="lb-game-tag"><%= entry.gameName %></span>
+              <span class="lb-score-big"><%= entry.score %> pts</span>
+              <span class="lb-date"><%= new Date(entry.timestamp).toLocaleDateString('fr-FR') %></span>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="empty-state">
+          <p>🎮 Aucun score enregistré. <a href="/games">Sois le premier à jouer !</a></p>
+        </div>
+      <% } %>
+    </div>
+  </section>
+</main>
+<%- include('partials/footer') %>

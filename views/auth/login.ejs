@@ -1,0 +1,60 @@
+<%- include('../partials/header') %>
+
+<main class="auth-page">
+  <div class="auth-container">
+    <div class="auth-brand">
+      <a href="/">🤖 RoboArena</a>
+    </div>
+    <div class="auth-card">
+      <h1>Connexion</h1>
+      <p class="auth-sub">Bienvenue de retour, humain.</p>
+
+      <% if (error) { %>
+        <div class="alert alert-error">
+          <% if (error === 'invalid_credentials') { %>⚠️ Identifiants incorrects
+          <% } else if (error === 'banned') { %>🚫 Compte banni : <%= reason || 'Violation des règles' %>
+          <% } else if (error === 'session_expired') { %>⏰ Session expirée, reconnectez-vous
+          <% } else if (error === 'missing_fields') { %>📝 Remplissez tous les champs
+          <% } else { %>❌ Erreur : <%= error %><% } %>
+        </div>
+      <% } %>
+
+      <form action="/auth/login" method="POST" class="auth-form">
+        <div class="form-group">
+          <label for="username">Nom d'utilisateur</label>
+          <input type="text" id="username" name="username" placeholder="votre_pseudo" 
+                 autocomplete="username" required maxlength="20" autofocus>
+        </div>
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <div class="input-reveal">
+            <input type="password" id="password" name="password" placeholder="••••••••" 
+                   autocomplete="current-password" required>
+            <button type="button" onclick="togglePwd('password')" class="reveal-btn">👁️</button>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary full-width">🔐 Se connecter</button>
+      </form>
+
+      <div class="auth-footer">
+        <p>Pas encore de compte ? <a href="/register">S'inscrire gratuitement</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="auth-deco">
+    <div class="deco-robots">
+      <div class="deco-robot" style="animation-delay:0s">🤖</div>
+      <div class="deco-robot" style="animation-delay:0.5s">🦾</div>
+      <div class="deco-robot" style="animation-delay:1s">👾</div>
+      <div class="deco-robot" style="animation-delay:1.5s">🤖</div>
+    </div>
+  </div>
+</main>
+
+<script>
+function togglePwd(id) {
+  const input = document.getElementById(id);
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+</script>
+<%- include('../partials/footer') %>

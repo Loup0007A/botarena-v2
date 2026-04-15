@@ -1,0 +1,94 @@
+<%- include('../partials/header') %>
+
+<main class="auth-page">
+  <div class="auth-container">
+    <div class="auth-brand"><a href="/">🤖 RoboArena</a></div>
+    <div class="auth-card">
+      <h1>Créer un compte</h1>
+      <p class="auth-sub">Rejoins l'arène. Les robots t'attendent.</p>
+
+      <% if (error) { %>
+        <div class="alert alert-error">
+          <% if (error === 'username_taken') { %>⚠️ Ce pseudo est déjà pris
+          <% } else if (error === 'email_taken') { %>⚠️ Cet email est déjà utilisé
+          <% } else if (error === 'password_mismatch') { %>❌ Les mots de passe ne correspondent pas
+          <% } else if (error === 'password_too_short') { %>🔒 Mot de passe trop court (8 caractères minimum)
+          <% } else if (error === 'invalid_username') { %>📝 Pseudo invalide (3-20 caractères, lettres/chiffres/_/-)
+          <% } else if (error === 'missing_fields') { %>📝 Remplissez tous les champs
+          <% } else { %>❌ Erreur : <%= error %><% } %>
+        </div>
+      <% } %>
+
+      <form action="/auth/register" method="POST" class="auth-form">
+        <div class="form-group">
+          <label for="username">Pseudo</label>
+          <input type="text" id="username" name="username" placeholder="hero_humain" 
+                 pattern="[a-zA-Z0-9_\-]{3,20}" title="3-20 caractères, lettres/chiffres/_/-"
+                 autocomplete="username" required autofocus>
+          <small>3-20 caractères. Lettres, chiffres, - et _ uniquement.</small>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="toi@email.com" 
+                 autocomplete="email" required>
+        </div>
+        <div class="form-group">
+          <label>Choisis ton avatar</label>
+          <div class="avatar-picker">
+            <% ['🤖','👾','🦾','🧠','👽','🎮','🔥','⚡','💎','🏆'].forEach((a, i) => { %>
+              <input type="radio" name="avatar" id="av<%= i %>" value="<%= a %>" <%= i===0 ? 'checked' : '' %>>
+              <label for="av<%= i %>" class="avatar-opt"><%= a %></label>
+            <% }) %>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <div class="input-reveal">
+            <input type="password" id="password" name="password" placeholder="••••••••" 
+                   autocomplete="new-password" required minlength="8">
+            <button type="button" onclick="togglePwd('password')" class="reveal-btn">👁️</button>
+          </div>
+          <div class="pwd-strength" id="pwdStrength"></div>
+        </div>
+        <div class="form-group">
+          <label for="confirm">Confirmer le mot de passe</label>
+          <div class="input-reveal">
+            <input type="password" id="confirm" name="confirm" placeholder="••••••••" 
+                   autocomplete="new-password" required minlength="8">
+            <button type="button" onclick="togglePwd('confirm')" class="reveal-btn">👁️</button>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary full-width">🚀 Rejoindre l'arène</button>
+      </form>
+      <div class="auth-footer">
+        <p>Déjà un compte ? <a href="/login">Se connecter</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="auth-deco">
+    <div class="deco-robots">
+      <div class="deco-robot" style="animation-delay:0s">🤖</div>
+      <div class="deco-robot" style="animation-delay:0.7s">🦾</div>
+      <div class="deco-robot" style="animation-delay:1.4s">👾</div>
+    </div>
+  </div>
+</main>
+
+<script>
+function togglePwd(id) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+document.getElementById('password').addEventListener('input', function() {
+  const v = this.value, el = document.getElementById('pwdStrength');
+  let score = 0;
+  if (v.length >= 8) score++;
+  if (/[A-Z]/.test(v)) score++;
+  if (/[0-9]/.test(v)) score++;
+  if (/[^A-Za-z0-9]/.test(v)) score++;
+  const labels = ['','Faible','Moyen','Bon','Fort'];
+  const colors = ['','#ff4757','#ffa502','#2ed573','#00ff88'];
+  el.innerHTML = v.length > 0 ? `<div class="strength-bar"><div style="width:${score*25}%;background:${colors[score]}"></div></div><span style="color:${colors[score]}">${labels[score]||'Faible'}</span>` : '';
+});
+</script>
+<%- include('../partials/footer') %>

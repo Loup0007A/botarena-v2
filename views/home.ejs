@@ -1,0 +1,128 @@
+<%- include('partials/header') %>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="grid-overlay"></div>
+      <div class="particles" id="particles"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">⚡ <%= totalGames %> Jeux disponibles</div>
+      <h1 class="hero-title">
+        Affronte les<br>
+        <span class="glitch" data-text="ROBOTS">ROBOTS</span>
+      </h1>
+      <p class="hero-desc">La seule arène où les humains prouvent qu'ils valent mieux que les machines.<br>40 mini-jeux. Des robots impitoyables. Qui va gagner ?</p>
+      <div class="hero-cta">
+        <a href="/games" class="btn-primary">🎮 Jouer maintenant</a>
+        <% if (!user) { %>
+          <a href="/register" class="btn-secondary">Créer un compte</a>
+        <% } else { %>
+          <a href="/leaderboard" class="btn-secondary">🏆 Voir le classement</a>
+        <% } %>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span>40</span><label>Jeux</label></div>
+        <div class="stat"><span>8</span><label>Catégories</label></div>
+        <div class="stat"><span>🤖</span><label>VS Robots</label></div>
+      </div>
+    </div>
+    <div class="hero-robot">
+      <div class="robot-anim">🤖</div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="section categories-section">
+    <div class="container">
+      <h2 class="section-title">Choisis ton <span class="accent">mode de combat</span></h2>
+      <div class="cat-grid">
+        <% const catIcons = {'Réflexes':'⚡','Stratégie':'♟️','Puzzle':'🧩','Maths':'➕','Mémoire':'🧠','Arcade':'🕹️','Mots':'🔤','Culture':'❓','Créativité':'🎨','Sport':'⚽','Chance':'🎲'}; %>
+        <% categories.forEach(cat => { %>
+          <a href="/games?cat=<%= encodeURIComponent(cat) %>" class="cat-card">
+            <span class="cat-icon"><%= catIcons[cat] || '🎮' %></span>
+            <span><%= cat %></span>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Games -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Jeux <span class="accent">populaires</span></h2>
+      <div class="games-grid">
+        <% featured.forEach(game => { %>
+          <a href="/games/<%= game.id %>" class="game-card" style="--card-color: <%= game.color %>">
+            <div class="game-card-icon"><%= game.icon %></div>
+            <div class="game-card-info">
+              <h3><%= game.name %></h3>
+              <p><%= game.desc %></p>
+              <div class="game-meta">
+                <span class="badge"><%= game.category %></span>
+                <span class="difficulty diff-<%= game.difficulty.toLowerCase() %>"><%= game.difficulty %></span>
+              </div>
+            </div>
+            <div class="game-card-hover">▶ Jouer</div>
+          </a>
+        <% }) %>
+      </div>
+      <div class="text-center mt-40">
+        <a href="/games" class="btn-primary">Voir tous les jeux →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leaderboard preview -->
+  <% if (leaderboard && leaderboard.length > 0) { %>
+  <section class="section leaderboard-preview">
+    <div class="container">
+      <h2 class="section-title">🏆 Meilleurs <span class="accent">joueurs</span></h2>
+      <div class="lb-list">
+        <% leaderboard.forEach((entry, i) => { %>
+          <div class="lb-row">
+            <span class="lb-rank"><%= i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '#'+(i+1) %></span>
+            <span class="lb-name"><%= entry.username %></span>
+            <span class="lb-game"><%= entry.gameName %></span>
+            <span class="lb-score"><%= entry.score %> pts</span>
+          </div>
+        <% }) %>
+      </div>
+      <div class="text-center mt-20"><a href="/leaderboard" class="btn-secondary">Classement complet →</a></div>
+    </div>
+  </section>
+  <% } %>
+
+  <!-- Why RoboArena -->
+  <section class="section why-section">
+    <div class="container">
+      <h2 class="section-title">Pourquoi <span class="accent">RoboArena</span> ?</h2>
+      <div class="why-grid">
+        <div class="why-card">
+          <span>🎯</span>
+          <h3>40 mini-jeux uniques</h3>
+          <p>De la stratégie aux réflexes, chaque jeu est un nouveau défi contre des robots aux comportements différents.</p>
+        </div>
+        <div class="why-card">
+          <span>🤖</span>
+          <h3>IA adaptative</h3>
+          <p>Les robots apprennent et s'adaptent. Plus tu joues, plus le défi est grand.</p>
+        </div>
+        <div class="why-card">
+          <span>🏆</span>
+          <h3>Classement mondial</h3>
+          <p>Prouve ta valeur dans le classement général ou par jeu.</p>
+        </div>
+        <div class="why-card">
+          <span>🆓</span>
+          <h3>100% gratuit</h3>
+          <p>Tous les jeux sont accessibles gratuitement. Créez un compte pour sauvegarder vos scores.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,117 @@
+<%- include('../partials/header') %>
+
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="admin-logo">⚙️ Admin Panel</div>
+    <nav class="admin-nav">
+      <a href="/admin" class="anav-link">📊 Dashboard</a>
+      <a href="/admin/users" class="anav-link active">👥 Joueurs</a>
+      <a href="/admin/games" class="anav-link">🎮 Jeux</a>
+      <a href="/admin/logs" class="anav-link">📋 Logs</a>
+      <a href="/admin/leaderboard" class="anav-link">🏆 Classement</a>
+      <hr>
+      <a href="/" class="anav-link">← Site</a>
+      <a href="/auth/logout" class="anav-link danger">🚪 Déconnexion</a>
+    </nav>
+  </aside>
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>👥 Gestion des joueurs</h1>
+      <span><%= users.length %> joueurs inscrits</span>
+    </div>
+
+    <div class="admin-search">
+      <input type="text" id="searchInput" placeholder="🔍 Rechercher un joueur..." onkeyup="filterTable()">
+    </div>
+
+    <div class="log-table-wrap">
+      <table class="admin-table" id="usersTable">
+        <thead>
+          <tr>
+            <th>Avatar</th><th>Pseudo</th><th>Email</th>
+            <th>Parties</th><th>Victoires</th><th>Inscrit le</th>
+            <th>Dernière co.</th><th>Statut</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(u => { %>
+            <tr class="<%= u.banned ? 'row-banned' : '' %>">
+              <td><%= u.avatar %></td>
+              <td><a href="/admin/users/<%= u.id %>"><strong><%= u.username %></strong></a></td>
+              <td><small><%= u.email %></small></td>
+              <td><%= u.gamesPlayed || 0 %></td>
+              <td><%= u.wins || 0 %></td>
+              <td><small><%= new Date(u.createdAt).toLocaleDateString('fr-FR') %></small></td>
+              <td><small><%= u.lastLogin ? new Date(u.lastLogin).toLocaleDateString('fr-FR') : 'Jamais' %></small></td>
+              <td>
+                <span class="status-badge <%= u.banned ? 'banned' : 'active' %>">
+                  <%= u.banned ? '🚫 Banni' : '✅ Actif' %>
+                </span>
+                <% if (u.banned && u.banReason) { %>
+                  <br><small class="ban-reason"><%= u.banReason %></small>
+                <% } %>
+              </td>
+              <td class="action-cell">
+                <a href="/admin/users/<%= u.id %>" class="btn-xs">👁</a>
+                <% if (!u.banned) { %>
+                  <button class="btn-xs btn-danger" onclick="openBanModal('<%= u.id %>', '<%= u.username %>')">🚫 Ban</button>
+                <% } else { %>
+                  <form action="/admin/users/<%= u.id %>/unban" method="POST" style="display:inline">
+                    <button type="submit" class="btn-xs btn-success">✅ Débannir</button>
+                  </form>
+                <% } %>
+                <button class="btn-xs btn-danger" onclick="confirmDelete('<%= u.id %>', '<%= u.username %>')">🗑</button>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<!-- Ban Modal -->
+<div class="modal-overlay" id="banModal" style="display:none">
+  <div class="modal-box">
+    <h2>🚫 Bannir l'utilisateur</h2>
+    <p>Pseudo : <strong id="banUsername"></strong></p>
+    <form id="banForm" method="POST">
+      <div class="form-group">
+        <label for="banReason">Raison du ban</label>
+        <input type="text" name="reason" id="banReason" placeholder="Violation des règles..." required>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn-danger">🚫 Confirmer le ban</button>
+        <button type="button" class="btn-secondary" onclick="closeBanModal()">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Delete confirm -->
+<form id="deleteForm" method="POST" style="display:none"></form>
+
+<script>
+function filterTable() {
+  const val = document.getElementById('searchInput').value.toLowerCase();
+  document.querySelectorAll('#usersTable tbody tr').forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(val) ? '' : 'none';
+  });
+}
+function openBanModal(id, username) {
+  document.getElementById('banUsername').textContent = username;
+  document.getElementById('banForm').action = '/admin/users/' + id + '/ban';
+  document.getElementById('banModal').style.display = 'flex';
+}
+function closeBanModal() {
+  document.getElementById('banModal').style.display = 'none';
+}
+function confirmDelete(id, username) {
+  if (confirm(`Supprimer définitivement "${username}" ? Cette action est irréversible.`)) {
+    const f = document.getElementById('deleteForm');
+    f.action = '/admin/users/' + id + '/delete';
+    f.submit();
+  }
+}
+</script>
+<%- include('../partials/footer') %>

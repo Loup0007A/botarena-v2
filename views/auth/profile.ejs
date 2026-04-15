@@ -1,0 +1,43 @@
+<%- include('../partials/header') %>
+<main class="profile-page">
+  <div class="container">
+    <div class="profile-header">
+      <div class="profile-avatar"><%= user.avatar %></div>
+      <div class="profile-info">
+        <h1><%= user.username %></h1>
+        <p>Membre depuis <%= new Date(user.createdAt).toLocaleDateString('fr-FR') %></p>
+        <% if (user.lastLogin) { %><p>Dernière connexion : <%= new Date(user.lastLogin).toLocaleString('fr-FR') %></p><% } %>
+      </div>
+    </div>
+    <div class="profile-stats">
+      <div class="pstat"><span class="pstat-val"><%= user.gamesPlayed || 0 %></span><span>Parties jouées</span></div>
+      <div class="pstat"><span class="pstat-val accent"><%= user.wins || 0 %></span><span>Victoires</span></div>
+      <div class="pstat"><span class="pstat-val danger"><%= user.losses || 0 %></span><span>Défaites</span></div>
+      <div class="pstat"><span class="pstat-val"><%= user.gamesPlayed > 0 ? Math.round(user.wins/user.gamesPlayed*100) : 0 %>%</span><span>Taux de victoire</span></div>
+    </div>
+    <div class="profile-section">
+      <h2>Historique récent</h2>
+      <% if (scores && scores.length > 0) { %>
+        <div class="history-list">
+          <% scores.forEach(s => { %>
+            <div class="history-row result-<%= s.result %>">
+              <span class="h-game"><%= s.gameName %></span>
+              <span class="h-result"><%= s.result === 'win' ? '🏆 Victoire' : s.result === 'loss' ? '🤖 Défaite' : '🤝 Égalité' %></span>
+              <span class="h-score"><%= s.score %> pts</span>
+              <span class="h-date"><%= new Date(s.timestamp).toLocaleDateString('fr-FR') %></span>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="empty-state">
+          <p>🎮 Aucune partie jouée pour l'instant. <a href="/games">Commencer à jouer !</a></p>
+        </div>
+      <% } %>
+    </div>
+    <div class="profile-actions">
+      <a href="/games" class="btn-primary">🎮 Jouer</a>
+      <a href="/leaderboard" class="btn-secondary">🏆 Classement</a>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>

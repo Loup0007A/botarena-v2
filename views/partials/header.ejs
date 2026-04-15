@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || 'RoboArena' %></title>
+  <meta name="description" content="<%= description || 'RoboArena - Défie les robots dans 40 mini-jeux épiques !' %>">
+  <% if (typeof keywords !== 'undefined') { %><meta name="keywords" content="<%= keywords %>"><% } %>
+  <meta name="author" content="Loup007A">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="<%= title %>">
+  <meta property="og:description" content="<%= description || 'RoboArena - Défie les robots dans 40 mini-jeux épiques !' %>">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= siteUrl %>">
+  <meta property="og:image" content="<%= siteUrl %>/images/og-image.png">
+  <meta property="og:site_name" content="RoboArena">
+  <meta property="og:locale" content="fr_FR">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= title %>">
+  <meta name="twitter:description" content="<%= description || 'RoboArena - Défie les robots dans 40 mini-jeux !' %>">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="<%= siteUrl %><%= typeof canonicalPath !== 'undefined' ? canonicalPath : '' %>">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#00ff88">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "RoboArena",
+    "url": "<%= siteUrl %>",
+    "description": "Plateforme de mini-jeux en ligne où les joueurs affrontent des robots dans 40 défis différents",
+    "author": {
+      "@type": "Person",
+      "name": "Loup007A",
+      "email": "lr000000007@gmail.com",
+      "url": "https://github.com/Loup007A"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "<%= siteUrl %>/games?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="nav-logo">
+    <span class="logo-icon">🤖</span>
+    <span class="logo-text">Robo<span class="logo-accent">Arena</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="/games" class="nav-link">🎮 Jeux</a>
+    <a href="/leaderboard" class="nav-link">🏆 Classement</a>
+    <a href="/about" class="nav-link">ℹ️ À propos</a>
+  </div>
+  <div class="nav-auth">
+    <% if (user) { %>
+      <a href="/profile" class="nav-user"><span><%= user.avatar %></span> <%= user.username %></a>
+      <% if (user.role === 'admin') { %>
+        <a href="/admin" class="btn-admin">⚙️ Admin</a>
+      <% } %>
+      <a href="/auth/logout" class="btn-logout">Déconnexion</a>
+    <% } else { %>
+      <a href="/login" class="btn-login">Connexion</a>
+      <a href="/register" class="btn-register">S'inscrire</a>
+    <% } %>
+  </div>
+  <button class="nav-burger" onclick="toggleMenu()">☰</button>
+</nav>
+<div class="nav-mobile" id="navMobile">
+  <a href="/games">🎮 Jeux</a>
+  <a href="/leaderboard">🏆 Classement</a>
+  <a href="/about">ℹ️ À propos</a>
+  <% if (user) { %>
+    <a href="/profile"><%= user.avatar %> Profil</a>
+    <% if (user.role === 'admin') { %><a href="/admin">⚙️ Admin</a><% } %>
+    <a href="/auth/logout">Déconnexion</a>
+  <% } else { %>
+    <a href="/login">Connexion</a>
+    <a href="/register">S'inscrire</a>
+  <% } %>
+</div>

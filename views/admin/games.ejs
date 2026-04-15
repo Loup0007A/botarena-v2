@@ -1,0 +1,47 @@
+<%- include('../partials/header') %>
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="admin-logo">⚙️ Admin Panel</div>
+    <nav class="admin-nav">
+      <a href="/admin" class="anav-link">📊 Dashboard</a>
+      <a href="/admin/users" class="anav-link">👥 Joueurs</a>
+      <a href="/admin/games" class="anav-link active">🎮 Jeux</a>
+      <a href="/admin/logs" class="anav-link">📋 Logs</a>
+      <a href="/admin/leaderboard" class="anav-link">🏆 Classement</a>
+      <hr>
+      <a href="/" class="anav-link">← Site</a>
+      <a href="/auth/logout" class="anav-link danger">🚪 Déconnexion</a>
+    </nav>
+  </aside>
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>🎮 Gestion des jeux</h1>
+      <span><%= gameStats.length %> jeux au total</span>
+    </div>
+    <div class="log-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr><th>Icône</th><th>Nom</th><th>Catégorie</th><th>Difficulté</th><th>Parties</th><th>Victoires J.</th><th>Victoires Robot</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <% gameStats.forEach(g => { %>
+            <tr>
+              <td style="font-size:1.4rem"><%= g.icon %></td>
+              <td><strong><%= g.name %></strong></td>
+              <td><span class="badge"><%= g.category %></span></td>
+              <td><span class="difficulty diff-<%= g.difficulty.toLowerCase() %>"><%= g.difficulty %></span></td>
+              <td><%= g.plays %></td>
+              <td><span class="accent"><%= g.playerWins %></span></td>
+              <td><span class="danger-text"><%= g.robotWins %></span></td>
+              <td>
+                <a href="/games/<%= g.id %>" class="btn-xs" target="_blank">👁 Voir</a>
+                <a href="/admin/play/<%= g.id %>" class="btn-xs btn-success">🤖 Jouer en robot</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<%- include('../partials/footer') %>

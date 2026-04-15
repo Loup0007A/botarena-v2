@@ -1,0 +1,55 @@
+<%- include('../partials/header') %>
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="admin-logo">⚙️ Admin Panel</div>
+    <nav class="admin-nav">
+      <a href="/admin" class="anav-link">📊 Dashboard</a>
+      <a href="/admin/users" class="anav-link">👥 Joueurs</a>
+      <a href="/admin/games" class="anav-link active">🎮 Jeux</a>
+      <a href="/admin/logs" class="anav-link">📋 Logs</a>
+      <a href="/admin/leaderboard" class="anav-link">🏆 Classement</a>
+      <hr>
+      <a href="/" class="anav-link">← Site</a>
+    </nav>
+  </aside>
+  <main class="admin-main">
+    <div class="admin-header">
+      <a href="/admin/games" class="back-btn">← Jeux</a>
+      <h1>🤖 Jouer en tant que Robot — <%= game.name %></h1>
+    </div>
+
+    <div class="robot-mode-banner">
+      <div class="robot-mode-icon">🤖</div>
+      <div>
+        <h2>Mode Administrateur Robot</h2>
+        <p>Vous contrôlez le robot dans ce jeu. Un vrai joueur vous affronte de son côté.<br>
+        Ce mode nécessite une implémentation multijoueur temps réel (WebSocket) pour fonctionner en production.</p>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <h2>Jouer en solo (simulation)</h2>
+      <p>Pour tester le jeu en tant qu'admin, vous pouvez y accéder directement :</p>
+      <div style="margin:20px 0;display:flex;gap:12px;flex-wrap:wrap">
+        <a href="/games/<%= game.id %>" class="btn-primary" target="_blank">🎮 Jouer au jeu normalement</a>
+        <a href="/admin/games" class="btn-secondary">← Retour aux jeux</a>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <h2>📌 Instructions pour le mode "Robot Humain"</h2>
+      <div class="info-box">
+        <h3>Pour activer le mode multijoueur admin-robot :</h3>
+        <ol style="line-height:2">
+          <li>Installer <code>socket.io</code> : <code>npm install socket.io</code></li>
+          <li>Créer un lobby WebSocket pour chaque jeu</li>
+          <li>L'admin rejoint en tant que joueur "Robot"</li>
+          <li>Les actions de l'admin remplacent les décisions de l'IA</li>
+          <li>Les joueurs ne savent pas qu'ils affrontent un humain (turing test !)</li>
+        </ol>
+        <p>Cette architecture est prête à être implémentée. Le backend est en place, il suffit d'ajouter la couche WebSocket.</p>
+      </div>
+    </div>
+  </main>
+</div>
+<%- include('../partials/footer') %>
