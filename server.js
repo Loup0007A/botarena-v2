@@ -42,10 +42,11 @@ app.use(cors({ origin: process.env.SITE_URL, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public'), {
   maxAge: '1d',
-  setHeaders: (res, path) => {
-    if (path.endsWith('.html')) res.setHeader('Cache-Control', 'no-cache');
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) res.setHeader('Cache-Control', 'no-cache');
   }
 }));
 
@@ -57,7 +58,7 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    maxAge: 7 * 24 * 60 * 60 * 1000,
     sameSite: 'lax'
   },
   name: 'roboarena.sid'
@@ -67,23 +68,26 @@ app.use(session({
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// ─── Global Template Vars ───
+// ─── Global middleware ───
 app.use(optionalAuth);
 app.use(injectUser);
 
-// ─── Routes ───
-app.use('/auth', require('./routes/auth'));
+// ─── ROUTES (FIX ICI) ───
+// ❌ ancien : app.use('/auth', require('./routes/auth'));
+app.use('/', require('./routes/auth'));
+
 app.use('/games', require('./routes/games'));
 app.use('/admin', require('./routes/admin'));
 
-// Homepage
+// ─── HOME ───
 app.get('/', (req, res) => {
   const leaderboard = Scores.getLeaderboard(null, 5);
   const featured = GAMES.slice(0, 8);
+
   res.render('home', {
     title: 'RoboArena - Défie les Robots dans 40 Mini-Jeux !',
-    description: 'RoboArena est la plateforme de mini-jeux où tu affrontes des robots dans 40 défis épiques. Réflexes, stratégie, mémoire — bats les machines !',
-    keywords: 'RoboArena, mini-jeux robot, jeux contre IA, jeux en ligne, défi robot, jeux navigateur',
+    description: 'Affronte des robots dans 40 mini-jeux épiques.',
+    keywords: 'RoboArena, jeux, robots, mini-jeux, IA',
     leaderboard,
     featured,
     categories: CATEGORIES,
@@ -91,28 +95,29 @@ app.get('/', (req, res) => {
   });
 });
 
-// Leaderboard page
+// ─── LEADERBOARD ───
 app.get('/leaderboard', (req, res) => {
   const gameId = req.query.game || null;
   const leaderboard = Scores.getLeaderboard(gameId, 50);
+
   res.render('leaderboard', {
     title: 'Classement - RoboArena',
-    description: 'Classement des meilleurs joueurs de RoboArena',
+    description: 'Meilleurs joueurs',
     leaderboard,
     games: GAMES,
     currentGame: gameId
   });
 });
 
-// About
+// ─── ABOUT ───
 app.get('/about', (req, res) => {
   res.render('about', {
     title: 'À Propos - RoboArena',
-    description: 'Découvrez RoboArena, la plateforme de mini-jeux contre des robots créée par Loup007A.'
+    description: 'Plateforme de mini-jeux contre des robots'
   });
 });
 
-// robots.txt
+// ─── robots.txt ───
 app.get('/robots.txt', (req, res) => {
   res.type('text/plain');
   res.send(`User-agent: *
@@ -120,46 +125,37 @@ Allow: /
 Allow: /games
 Allow: /leaderboard
 Allow: /about
+Allow: /login
 Allow: /register
+
 Disallow: /admin
 Disallow: /admin/*
-Disallow: /auth/logout
 Disallow: /api/
 Disallow: /data/
 
 Sitemap: ${process.env.SITE_URL || 'https://roboarena.io'}/sitemap.xml`);
 });
 
-// Route /cron
+// ─── CRON ───
 app.get('/cron', (req, res) => {
-    console.log('Cron exécuté à', new Date());
-
-    // 👉 Mets ici ton code à exécuter
-    // Exemple :
-    // - nettoyer une base de données
-    // - appeler une API
-    // - envoyer des emails
-
-    res.status(200).send('Cron exécuté');
+  console.log('Cron exécuté', new Date());
+  res.send('OK');
 });
 
-// sitemap.xml
+// ─── SITEMAP ───
 app.get('/sitemap.xml', (req, res) => {
   const base = process.env.SITE_URL || 'https://roboarena.io';
   const now = new Date().toISOString().split('T')[0];
+
   const staticRoutes = ['', '/games', '/leaderboard', '/about', '/login', '/register'];
   const gameRoutes = GAMES.map(g => `/games/${g.id}`);
-  const allRoutes = [...staticRoutes, ...gameRoutes];
 
-  const urls = allRoutes.map(route => {
-    const priority = route === '' ? '1.0' : route.startsWith('/games/') ? '0.8' : '0.6';
-    return `  <url>
+  const urls = [...staticRoutes, ...gameRoutes].map(route => `
+  <url>
     <loc>${base}${route}</loc>
     <lastmod>${now}</lastmod>
-    <changefreq>${route === '' ? 'daily' : 'weekly'}</changefreq>
-    <priority>${priority}</priority>
-  </url>`;
-  }).join('\n');
+    <changefreq>weekly</changefreq>
+  </url>`).join('\n');
 
   res.header('Content-Type', 'application/xml');
   res.send(`<?xml version="1.0" encoding="UTF-8"?>
@@ -168,41 +164,43 @@ ${urls}
 </urlset>`);
 });
 
-// manifest.json (PWA)
+// ─── PWA MANIFEST ───
 app.get('/manifest.json', (req, res) => {
   res.json({
     name: 'RoboArena',
     short_name: 'RoboArena',
-    description: 'Défie les robots dans 40 mini-jeux !',
     start_url: '/',
     display: 'standalone',
-    background_color: '#0a0a1a',
     theme_color: '#00ff88',
-    icons: [
-      { src: '/images/icon-192.png', sizes: '192x192', type: 'image/png' },
-      { src: '/images/icon-512.png', sizes: '512x512', type: 'image/png' }
-    ]
+    background_color: '#0a0a1a'
   });
 });
 
-// 404
+// ─── 404 ───
 app.use((req, res) => {
-  res.status(404).render('404', { title: '404 - RoboArena', description: 'Page introuvable' });
+  res.status(404).render('404', {
+    title: '404 - RoboArena',
+    description: 'Page introuvable'
+  });
 });
 
-// 500
+// ─── ERROR ───
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error(err);
   log('server_error', { url: req.url, error: err.message });
-  res.status(500).render('500', { title: '500 - RoboArena', description: 'Erreur serveur' });
+
+  res.status(500).render('500', {
+    title: 'Erreur serveur',
+    description: 'Erreur interne'
+  });
 });
 
-// ─── Start ───
+// ─── START ───
 initAdmin();
+
 app.listen(PORT, () => {
-  console.log(`\n🤖 RoboArena démarré sur http://localhost:${PORT}`);
-  console.log(`📁 Mode: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🎮 ${GAMES.length} jeux disponibles\n`);
+  console.log(`🤖 RoboArena running on http://localhost:${PORT}`);
+  console.log(`🎮 ${GAMES.length} games loaded`);
 });
 
 module.exports = app;
