@@ -130,6 +130,19 @@ Disallow: /data/
 Sitemap: ${process.env.SITE_URL || 'https://roboarena.io'}/sitemap.xml`);
 });
 
+// Route /cron
+app.get('/cron', (req, res) => {
+    console.log('Cron exécuté à', new Date());
+
+    // 👉 Mets ici ton code à exécuter
+    // Exemple :
+    // - nettoyer une base de données
+    // - appeler une API
+    // - envoyer des emails
+
+    res.status(200).send('Cron exécuté');
+});
+
 // sitemap.xml
 app.get('/sitemap.xml', (req, res) => {
   const base = process.env.SITE_URL || 'https://roboarena.io';
