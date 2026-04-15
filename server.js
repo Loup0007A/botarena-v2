@@ -16,6 +16,14 @@ const { Scores } = require('./models/db');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// ─── DEFAULT TEMPLATE VARIABLES (FIX GLOBAL) ───
+app.use((req, res, next) => {
+  res.locals.title = 'RoboArena';
+  res.locals.description = 'RoboArena - Défie les robots dans 40 mini-jeux épiques !';
+  res.locals.keywords = 'jeux, robots, mini-jeux, IA, RoboArena';
+  next();
+});
+
 // ─── Security ───
 app.use(helmet({
   contentSecurityPolicy: {
