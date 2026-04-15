@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title || 'RoboArena' %></title>
-  <meta name="description" content="<%= description || 'RoboArena - Défie les robots dans 40 mini-jeux épiques !' %>">
+  <meta name="description" content="<%= typeof description !== 'undefined' ? description : 'RoboArena - Défie les robots dans 40 mini-jeux épiques !' %>">
   <% if (typeof keywords !== 'undefined') { %><meta name="keywords" content="<%= keywords %>"><% } %>
   <meta name="author" content="Loup007A">
   <meta name="robots" content="index, follow">
