@@ -80,8 +80,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(optionalAuth);
 app.use(injectUser);
 
-// ─── ROUTES (FIX ICI) ───
-// ❌ ancien : app.use('/auth', require('./routes/auth'));
+// ─── ROUTES ───
+// Auth routes mounted at / so /login, /register, /logout work directly
 app.use('/', require('./routes/auth'));
 
 app.use('/games', require('./routes/games'));

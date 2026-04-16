@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title || 'RoboArena' %></title>
-  <meta name="description" content="<%= typeof description !== 'undefined' ? description : 'RoboArena - Défie les robots dans 40 mini-jeux épiques !' %>">
+  <meta name="description" content="<%= description || 'RoboArena - Défie les robots dans 40 mini-jeux épiques !' %>">
   <% if (typeof keywords !== 'undefined') { %><meta name="keywords" content="<%= keywords %>"><% } %>
   <meta name="author" content="Loup007A">
   <meta name="robots" content="index, follow">
@@ -76,7 +76,7 @@
       <% if (user.role === 'admin') { %>
         <a href="/admin" class="btn-admin">⚙️ Admin</a>
       <% } %>
-      <a href="/auth/logout" class="btn-logout">Déconnexion</a>
+      <a href="/logout" class="btn-logout">Déconnexion</a>
     <% } else { %>
       <a href="/login" class="btn-login">Connexion</a>
       <a href="/register" class="btn-register">S'inscrire</a>
@@ -91,7 +91,7 @@
   <% if (user) { %>
     <a href="/profile"><%= user.avatar %> Profil</a>
     <% if (user.role === 'admin') { %><a href="/admin">⚙️ Admin</a><% } %>
-    <a href="/auth/logout">Déconnexion</a>
+    <a href="/logout">Déconnexion</a>
   <% } else { %>
     <a href="/login">Connexion</a>
     <a href="/register">S'inscrire</a>
