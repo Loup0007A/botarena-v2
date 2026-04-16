@@ -141,7 +141,7 @@ Disallow: /admin/*
 Disallow: /api/
 Disallow: /data/
 
-Sitemap: https://botarena-s3yp.onrender.com/sitemap.xml
+Sitemap: https://botarena-s3yp.onrender.com/sitemap.xml`
 });
 
 // ─── CRON ───
