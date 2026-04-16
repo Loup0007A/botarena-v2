@@ -155,8 +155,7 @@ app.get('/google77d908c4db9f2d8c.html', (req, res) => {
 });
 
 app.get('/sitemap.xml', (req, res) => {
-  res.header('Content-Type', 'application/xml; charset=utf-8');
-  res.send(xmlContent);
+  res.sendFile(__dirname + '/sitemap.xml');
 });
 
 
