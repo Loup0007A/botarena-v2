@@ -154,6 +154,10 @@ app.get('/google77d908c4db9f2d8c.html', (req, res) => {
   res.sendFile(__dirname + '/google77d908c4db9f2d8c.html');
 });
 
+app.get('/a229e6a763cb53790e6bcd8d1e2b8f7f.txt', (req, res) => {
+  res.sendFile(__dirname + '/a229e6a763cb53790e6bcd8d1e2b8f7f.txt');
+});
+
 app.get('/sitemap.xml', (req, res) => {
   res.set('Content-Type', 'application/xml; charset=utf-8');
   res.sendFile(__dirname + '/sitemap.xml');
