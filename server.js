@@ -150,6 +150,10 @@ app.get('/cron', (req, res) => {
   res.send('OK');
 });
 
+app.get('/google77d908c4db9f2d8c.html', (req, res) => {
+  res.sendFile(__dirname + '/google77d908c4db9f2d8c.html');
+});
+
 // ─── SITEMAP ───
 app.get('/sitemap.xml', (req, res) => {
   const base = process.env.SITE_URL || 'https://roboarena.io';
