@@ -5,80 +5,190 @@
     <loc>https://botarena-s3yp.onrender.com/</loc>
     <lastmod>2026-04-16</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://botarena-s3yp.onrender.com/games</loc>
     <lastmod>2026-04-16</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://botarena-s3yp.onrender.com/leaderboard</loc>
     <lastmod>2026-04-16</lastmod>
     <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://botarena-s3yp.onrender.com/about</loc>
     <lastmod>2026-04-16</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://botarena-s3yp.onrender.com/login</loc>
     <lastmod>2026-04-16</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
   </url>
 
   <url>
     <loc>https://botarena-s3yp.onrender.com/register</loc>
     <lastmod>2026-04-16</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
   </url>
 
-  <!-- Games -->
-  <url><loc>https://botarena-s3yp.onrender.com/games/quickdraw</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/colorflash</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/taptap</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/avoider</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/simonbot</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/tictactoe</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/connect4</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/minesweeper</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/chess</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/othello</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/slidepuzzle</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/wordsearch</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/sudokubot</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/picross</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/anagram</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/mathrace</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/binarybot</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/sequencer</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/primehunt</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/balancescale</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/memorycards</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/pathrecall</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/numberseq</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/whichone</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/snapbot</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/pongbot</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/snakerace</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/breakbot</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/asteroids</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/froggerbot</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/hangmanbot</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/typingrace</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/wordchain</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/scramble</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/quizbot</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/pixelrace</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/colorguess</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/symmetry</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/shapematch</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/robosoccer</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/rockpaperbot</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
-  <url><loc>https://botarena-s3yp.onrender.com/games/mazerobot</loc><lastmod>2026-04-16</lastmod><changefreq>weekly</changefreq></url>
+  <!-- Games hub -->
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/quickdraw</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/colorflash</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/taptap</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/avoider</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/simonbot</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/tictactoe</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/connect4</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/minesweeper</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/chess</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/othello</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/slidepuzzle</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/wordsearch</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/sudokubot</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/picross</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/mathrace</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/pongbot</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/snakerace</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/asteroids</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/hangmanbot</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/quizbot</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://botarena-s3yp.onrender.com/games/mazerobot</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
 
 </urlset>
