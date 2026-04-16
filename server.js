@@ -156,23 +156,31 @@ app.get('/google77d908c4db9f2d8c.html', (req, res) => {
 
 // ─── SITEMAP ───
 app.get('/sitemap.xml', (req, res) => {
-  const base = process.env.SITE_URL || 'https://roboarena.io';
+  const base = (process.env.SITE_URL || 'https://roboarena.io').replace(/\/$/, '');
   const now = new Date().toISOString().split('T')[0];
 
+  const escapeXml = str =>
+    str.replace(/&/g, '&amp;')
+       .replace(/</g, '&lt;')
+       .replace(/>/g, '&gt;')
+       .replace(/"/g, '&quot;')
+       .replace(/'/g, '&apos;');
+
   const staticRoutes = ['', '/games', '/leaderboard', '/about', '/login', '/register'];
-  const gameRoutes = GAMES.map(g => `/games/${g.id}`);
+  const gameRoutes = GAMES.map(g => `/games/${encodeURIComponent(g.id)}`);
 
-  const urls = [...staticRoutes, ...gameRoutes].map(route => `
-  <url>
-    <loc>${base}${route}</loc>
-    <lastmod>${now}</lastmod>
-    <changefreq>weekly</changefreq>
-  </url>`).join('\n');
+  const urls = [...staticRoutes, ...gameRoutes]
+    .map(route => `
+<url>
+  <loc>${escapeXml(base + route)}</loc>
+  <lastmod>${now}</lastmod>
+  <changefreq>weekly</changefreq>
+</url>`)
+    .join('');
 
-  res.header('Content-Type', 'application/xml');
+  res.header('Content-Type', 'application/xml; charset=utf-8');
   res.send(`<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}
 </urlset>`);
 });
 
